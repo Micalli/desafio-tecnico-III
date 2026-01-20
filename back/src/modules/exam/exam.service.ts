@@ -11,7 +11,7 @@ export class ExamService {
     private readonly patientsRepository: PatientsRepository,
   ) {}
 
-  async create(createExamDto: CreateExamDto, res: Response) {
+  async create(createExamDto: CreateExamDto, ) {
     const { examDate, idempotencyKey, patientId, description, modality } =
       createExamDto;
 

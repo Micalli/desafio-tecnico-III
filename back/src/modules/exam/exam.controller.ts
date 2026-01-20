@@ -1,7 +1,6 @@
 import { Controller, Get, Post, Body, Query, Res } from '@nestjs/common';
 import { ExamService } from './exam.service';
 import { CreateExamDto } from './dto/create-exam.dto';
-import { Response } from 'express';
 
 @Controller('exam')
 export class ExamController {
@@ -10,9 +9,8 @@ export class ExamController {
   @Post()
   async create(
     @Body() createExamDto: CreateExamDto,
-    @Res() res: import('express').Response,
   ) {
-    return await this.examService.create(createExamDto, res);
+    return await this.examService.create(createExamDto);
   }
 
   @Get()
