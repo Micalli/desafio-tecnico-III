@@ -1,0 +1,90 @@
+<div class="patient-create-container">
+  <div class="header">
+    <h1>Novo Paciente</h1>
+    <a routerLink="/patients" class="btn-secondary">
+      Voltar
+    </a>
+  </div>
+
+  <div class="content">
+    <app-loading *ngIf="isSubmitting"></app-loading>
+
+    <div *ngIf="success" class="success-message">
+      <svg class="success-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M5 13l4 4L19 7"></path>
+      </svg>
+      <p>Paciente criado com sucesso!</p>
+    </div>
+
+    <app-error-message
+      *ngIf="error && !isSubmitting"
+      [message]="error"
+      (retry)="onRetry()">
+    </app-error-message>
+
+    <form
+      *ngIf="!isSubmitting && !success"
+      [formGroup]="patientForm"
+      (ngSubmit)="onSubmit()"
+      class="form">
+
+      <div class="form-group">
+        <label for="name">Nome *</label>
+        <input
+          id="name"
+          type="text"
+          formControlName="name"
+          [class.invalid]="isFieldInvalid('name')"
+          placeholder="Digite o nome completo">
+        <span *ngIf="isFieldInvalid('name')" class="error-text">
+          {{ getFieldError('name') }}
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="document">Documento (CPF) *</label>
+        <input
+          id="document"
+          type="text"
+          formControlName="document"
+          (input)="onCpfInput($event)"
+          [class.invalid]="isFieldInvalid('document')"
+          placeholder="000.000.000-00"
+          maxlength="14">
+        <span *ngIf="isFieldInvalid('document')" class="error-text">
+          {{ getFieldError('document') }}
+        </span>
+        <small class="help-text">Digite o CPF com ou sem formatação</small>
+      </div>
+
+      <div class="form-group">
+        <label for="birthDate">Data de Nascimento *</label>
+        <input
+          id="birthDate"
+          type="date"
+          formControlName="birthDate"
+          [class.invalid]="isFieldInvalid('birthDate')">
+        <span *ngIf="isFieldInvalid('birthDate')" class="error-text">
+          {{ getFieldError('birthDate') }}
+        </span>
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="button"
+          routerLink="/patients"
+          class="btn-cancel">
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          [disabled]="patientForm.invalid || isSubmitting"
+          class="btn-submit">
+          Salvar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+

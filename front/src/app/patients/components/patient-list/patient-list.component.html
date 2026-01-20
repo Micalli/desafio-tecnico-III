@@ -1,0 +1,61 @@
+<div class="patient-list-container">
+  <div class="header">
+    <h1>Pacientes</h1>
+    <a routerLink="/patients/new" class="btn-primary">
+      Novo Paciente
+    </a>
+  </div>
+
+  <div class="content">
+    <app-loading *ngIf="loading"></app-loading>
+
+    <app-error-message
+      *ngIf="error && !loading"
+      [message]="error"
+      (retry)="onRetry()">
+    </app-error-message>
+
+    <div *ngIf="!loading && !error" class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Documento</th>
+            <th>Data de Nascimento</th>
+            <th>Criado em</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let patient of patients">
+            <td>{{ patient.name }}</td>
+            <td>{{ formatCpf(patient.document) }}</td>
+            <td>{{ formatDate(patient.birthDate) }}</td>
+            <td>{{ formatDate(patient.createdAt) }}</td>
+          </tr>
+          <tr *ngIf="patients.length === 0">
+            <td colspan="4" class="empty-message">
+              Nenhum paciente encontrado.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="pagination">
+        <button
+          [disabled]="currentPage === 1 || loading"
+          (click)="onPreviousPage()"
+          class="btn-pagination">
+          Anterior
+        </button>
+        <span class="page-info">Página {{ currentPage }}</span>
+        <button
+          [disabled]="!hasMore || loading"
+          (click)="onNextPage()"
+          class="btn-pagination">
+          Próxima
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+

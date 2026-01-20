@@ -1,0 +1,119 @@
+<div class="exam-create-container">
+  <div class="header">
+    <h1>Novo Exame</h1>
+    <a routerLink="/exams" class="btn-secondary">
+      Voltar
+    </a>
+  </div>
+
+  <div class="content">
+    <app-loading *ngIf="isSubmitting"></app-loading>
+
+    <div *ngIf="success" class="success-message">
+      <svg class="success-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M5 13l4 4L19 7"></path>
+      </svg>
+      <p>Exame criado com sucesso!</p>
+    </div>
+
+    <app-error-message
+      *ngIf="error && !isSubmitting"
+      [message]="error"
+      (retry)="onRetry()">
+    </app-error-message>
+
+    <form
+      *ngIf="!isSubmitting && !success"
+      [formGroup]="examForm"
+      (ngSubmit)="onSubmit()"
+      class="form">
+
+      <div class="form-group">
+        <label for="idempotencyKey">Chave de Idempotência *</label>
+        <input
+          id="idempotencyKey"
+          type="text"
+          formControlName="idempotencyKey"
+          [class.invalid]="isFieldInvalid('idempotencyKey')"
+          placeholder="Digite uma chave única">
+        <span *ngIf="isFieldInvalid('idempotencyKey')" class="error-text">
+          {{ getFieldError('idempotencyKey') }}
+        </span>
+        <small class="help-text">Chave única para evitar duplicação de exames</small>
+      </div>
+
+      <div class="form-group">
+        <label for="patientId">Paciente *</label>
+        <select
+          id="patientId"
+          formControlName="patientId"
+          [class.invalid]="isFieldInvalid('patientId')">
+          <option value="">Selecione um paciente</option>
+          <option *ngFor="let patient of patients" [value]="patient.id">
+            {{ patient.name }} - {{ patient.document }}
+          </option>
+        </select>
+        <span *ngIf="isFieldInvalid('patientId')" class="error-text">
+          {{ getFieldError('patientId') }}
+        </span>
+        <small *ngIf="loadingPatients" class="help-text">Carregando pacientes...</small>
+      </div>
+
+      <div class="form-group">
+        <label for="modality">Modalidade *</label>
+        <select
+          id="modality"
+          formControlName="modality"
+          [class.invalid]="isFieldInvalid('modality')">
+          <option value="">Selecione uma modalidade</option>
+          <option *ngFor="let mod of modalities" [value]="mod">
+            {{ mod }}
+          </option>
+        </select>
+        <span *ngIf="isFieldInvalid('modality')" class="error-text">
+          {{ getFieldError('modality') }}
+        </span>
+      </div>
+
+    <div class="form-group">
+      <label>Data do Exame *</label>
+      <input type="date" formControlName="examDate" [class.invalid]="isFieldInvalid('examDate')" />
+    </div>
+
+    <div class="form-group">
+      <label>Hora do Exame *</label>
+      <select formControlName="examTime">
+        <option value="">Selecione</option>
+        <option *ngFor="let time of timeOptions" [value]="time">
+          {{ time }}
+        </option>
+      </select>
+    </div>
+
+      <div class="form-group">
+        <label for="description">Descrição</label>
+        <textarea
+          id="description"
+          formControlName="description"
+          rows="4"
+          placeholder="Descrição opcional do exame"></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="button"
+          routerLink="/exams"
+          class="btn-cancel">
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          [disabled]="examForm.invalid || isSubmitting"
+          class="btn-submit">
+          Salvar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

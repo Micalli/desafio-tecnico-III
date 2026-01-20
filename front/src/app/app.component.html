@@ -1,0 +1,24 @@
+<div class="app-container">
+  <nav class="navbar">
+    <div class="nav-content">
+      <a routerLink="/" class="nav-title">MED Gestão</a>
+      <div class="nav-links">
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link">
+          Início
+        </a>
+        <a routerLink="/patients" routerLinkActive="active" class="nav-link">
+          Pacientes
+        </a>
+        <a routerLink="/exams" routerLinkActive="active" class="nav-link">
+          Exames
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>
+
+
