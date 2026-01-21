@@ -143,14 +143,30 @@ Esta seção detalha a implementação técnica, instruções de instalação e 
    ```bash
    npm install
    ```
+4. **Rodando PostgreSQL com Docker**
+    ```bash
+    docker run --name pg -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -p 5432:5432 -d postgres
+    ```
 
-4. **Configure as variáveis de ambiente**
+Em seguida dê esses comandos para criar a tabela dentro do container
+  ```bash
+  #Entra no bash do container
+  docker exec -it pg bash
+
+  #Entra no postgres
+  psql -U root
+  
+  #Cria o banco
+  CREATE DATABASE nomeDoBanco;
+  ```
+
+5. **Configure as variáveis de ambiente**
    Crie um arquivo `.env` na raiz da pasta `back` com o seguinte conteúdo (ajuste conforme suas credenciais do banco):
    ```env
    DATABASE_URL="postgresql://usuario:senha@localhost:5432/nome_do_banco?schema=public"
    ```
 
-5. **Execute as migrações do banco de dados**
+6. **Execute as migrações do banco de dados**
    ```bash
    npx prisma migrate dev
    ```
@@ -229,18 +245,16 @@ Defina a URL base da API no arquivo de ambientes do Angular:
 ```ts
 // src/environments/environment.ts
 export const environment = {
-  production: false,
   apiBaseUrl: 'http://localhost:3000'
 };
 ```
 
 ### Instalação e execução
-Caso o front esteja em uma pasta chamada `front`:
 
 ```bash
 cd front
 npm install
-npm run start
+ng serve
 ```
 
 Aplicação disponível em `http://localhost:4200`.

@@ -70,6 +70,15 @@ export class PatientListComponent implements OnInit {
     }
   }
 
+  onPageSizeChange(value: string): void {
+    const size = Number(value);
+    if (!isNaN(size) && size > 0) {
+      this.pageSize = size;
+      this.currentPage = 1;
+      this.loadPatients();
+    }
+  }
+
   formatDate(dateString: string): string {
     return new Date(dateString).toLocaleDateString('pt-BR');
   }

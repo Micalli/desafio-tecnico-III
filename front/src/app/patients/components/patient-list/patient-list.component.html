@@ -6,6 +6,16 @@
     </a>
   </div>
 
+  <label class="page-size-label">
+    Itens por página
+    <select class="page-size-input" [value]="pageSize" (change)="onPageSizeChange($any($event.target).value)">
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="15">15</option>
+      <option value="20">20</option>
+    </select>
+  </label>
+
   <div class="content">
     <app-loading *ngIf="loading"></app-loading>
 
@@ -37,6 +47,7 @@
               Nenhum paciente encontrado.
             </td>
           </tr>
+
         </tbody>
       </table>
 

@@ -5,7 +5,15 @@
       Novo Exame
     </a>
   </div>
-
+  <label class="page-size-label">
+    Itens por página
+    <select class="page-size-input" [value]="pageSize" (change)="onPageSizeChange($any($event.target).value)">
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="15">15</option>
+      <option value="20">20</option>
+    </select>
+  </label>
   <div class="content">
     <app-loading *ngIf="loading"></app-loading>
 
@@ -31,9 +39,9 @@
             <td><span>{{ exam.idempotencyKey }}</span></td>
             <td><span class="badge">{{ exam.modality }}</span></td>
             <td>
-            <app-tooltip [text]="exam.description || 'Sem descrição'">
-              {{ exam.description ? truncateText(exam.description, 20) : '-' }}
-            </app-tooltip>
+              <app-tooltip [text]="exam.description || 'Sem descrição'">
+                {{ exam.description ? truncateText(exam.description, 20) : '-' }}
+              </app-tooltip>
             </td>
             <td>{{ formatDateTime(exam.examDate) }}</td>
             <td>{{ formatDateTime(exam.createdAt) }}</td>

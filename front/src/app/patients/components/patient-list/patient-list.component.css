@@ -16,7 +16,39 @@
   font-weight: 700;
   color: #1f2937;
 }
+.page-size-label {
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  /* cinza escuro */
+}
+
+.page-size-input {
+  width: 70px;
+  height: 32px;
+
+  padding: 4px 8px;
+
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+
+  font-size: 14px;
+  color: #111827;
+
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.page-size-input:focus {
+  border-color: #2563eb;
+  /* azul */
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
 .btn-primary {
   background-color: #3b82f6;
   color: white;
