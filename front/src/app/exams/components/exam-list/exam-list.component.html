@@ -9,10 +9,7 @@
   <div class="content">
     <app-loading *ngIf="loading"></app-loading>
 
-    <app-error-message
-      *ngIf="error && !loading"
-      [message]="error"
-      (retry)="onRetry()">
+    <app-error-message *ngIf="error && !loading" [message]="error" (retry)="onRetry()">
     </app-error-message>
 
     <div *ngIf="!loading && !error" class="table-container">
@@ -31,9 +28,13 @@
         <tbody>
           <tr *ngFor="let exam of exams">
             <td>{{ exam.patient.name }}</td>
-            <td><span >{{ exam.idempotencyKey }}</span></td>
+            <td><span>{{ exam.idempotencyKey }}</span></td>
             <td><span class="badge">{{ exam.modality }}</span></td>
-            <td>{{ exam.description || '-' }}</td>
+            <td>
+            <app-tooltip [text]="exam.description || 'Sem descrição'">
+              {{ exam.description ? truncateText(exam.description, 20) : '-' }}
+            </app-tooltip>
+            </td>
             <td>{{ formatDateTime(exam.examDate) }}</td>
             <td>{{ formatDateTime(exam.createdAt) }}</td>
           </tr>
@@ -46,21 +47,14 @@
       </table>
 
       <div class="pagination">
-        <button
-          [disabled]="currentPage === 1 || loading"
-          (click)="onPreviousPage()"
-          class="btn-pagination">
+        <button [disabled]="currentPage === 1 || loading" (click)="onPreviousPage()" class="btn-pagination">
           Anterior
         </button>
         <span class="page-info">Página {{ currentPage }}</span>
-        <button
-          [disabled]="!hasMore || loading"
-          (click)="onNextPage()"
-          class="btn-pagination">
+        <button [disabled]="!hasMore || loading" (click)="onNextPage()" class="btn-pagination">
           Próxima
         </button>
       </div>
     </div>
   </div>
 </div>
-

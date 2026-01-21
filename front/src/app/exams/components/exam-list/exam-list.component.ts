@@ -4,11 +4,12 @@ import { RouterLink } from '@angular/router';
 import { ExamService, Exam } from '../../../core/services/exam.service';
 import { LoadingComponent } from '../../../shared/components/loading/loading.component';
 import { ErrorMessageComponent } from '../../../shared/components/error-message/error-message.component';
+import { TooltipComponent } from '../../../shared/components/tooltip/tooltip.component';
 
 @Component({
   selector: 'app-exam-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, LoadingComponent, ErrorMessageComponent],
+  imports: [CommonModule, RouterLink, LoadingComponent, ErrorMessageComponent, TooltipComponent],
   templateUrl: './exam-list.component.html',
   styleUrl: './exam-list.component.css'
 })
@@ -41,6 +42,13 @@ export class ExamListComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  truncateText(text: string | undefined, maxLength: number): string {
+    if (!text) return '';
+    return text.length > maxLength
+      ? text.slice(0, maxLength) + '...'
+      : text;
   }
 
   handleError(error: any): void {

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
 export interface Exam {
   id: string;
@@ -30,7 +31,7 @@ export interface CreateExamDto {
   providedIn: 'root'
 })
 export class ExamService {
-  private readonly apiUrl = 'http://localhost:3000/exam';
+  private readonly apiUrl = `${environment.apiBaseUrl}/exam`;
 
   constructor(private http: HttpClient) {}
 

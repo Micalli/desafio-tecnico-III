@@ -78,7 +78,7 @@
 
     <div class="form-group">
       <label>Data do Exame *</label>
-      <input type="date" formControlName="examDate" [class.invalid]="isFieldInvalid('examDate')" />
+      <input type="date" formControlName="examDate" [min]="minDate" [class.invalid]="isFieldInvalid('examDate')" />
     </div>
 
     <div class="form-group">

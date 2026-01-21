@@ -208,6 +208,69 @@ npm run test:e2e
 
 ---
 
+## 🖥️ Front-end
+
+O front-end previsto para este projeto é desenvolvido em Angular e consome os endpoints do backend documentados acima.
+
+### Tecnologias recomendadas
+- Angular 18+
+- RxJS
+- Angular Material (opcional)
+
+### Estrutura esperada
+- Página de listagem de pacientes com paginação
+- Página de listagem de exames com paginação
+- Formulários de cadastro de paciente e exame com validação
+- Serviços HTTP para comunicação com o backend
+
+### Configuração do ambiente
+Defina a URL base da API no arquivo de ambientes do Angular:
+
+```ts
+// src/environments/environment.ts
+export const environment = {
+  production: false,
+  apiBaseUrl: 'http://localhost:3000'
+};
+```
+
+### Instalação e execução
+Caso o front esteja em uma pasta chamada `front`:
+
+```bash
+cd front
+npm install
+npm run start
+```
+
+Aplicação disponível em `http://localhost:4200`.
+
+### Integração com a API
+- Pacientes:
+  - GET `${apiBaseUrl}/pacientes?page=1&pageSize=10`
+  - POST `${apiBaseUrl}/pacientes`
+- Exames:
+  - GET `${apiBaseUrl}/exam?page=1&pageSize=10`
+  - POST `${apiBaseUrl}/exam`
+
+### Testes do front
+Se o projeto Angular tiver testes configurados:
+
+```bash
+npm run test
+```
+
+Para testes E2E (caso configurado com Cypress/Playwright):
+```bash
+npm run e2e
+```
+
+### Observações
+- Caso o front não esteja neste repositório, siga os passos acima na pasta onde o projeto Angular se encontra.
+- Garanta que o backend esteja rodando e acessível pelo `apiBaseUrl` configurado.
+
+---
+
 ### Exames
 
 #### Criar Exame
