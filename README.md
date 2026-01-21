@@ -105,3 +105,136 @@ Para que eu tenha controle sobre o histórico clínico mesmo em situações de r
   - Idempotência em requisições simultâneas
   - Respostas corretas de erro
   - Listagem paginada
+⸻
+
+# 📘 Documentação do Projeto
+
+Esta seção detalha a implementação técnica, instruções de instalação e uso da API.
+
+## 🚀 Tecnologias Utilizadas
+
+- **Backend**: [NestJS](https://nestjs.com/) (Node.js)
+- **Banco de Dados**: [PostgreSQL](https://www.postgresql.org/)
+- **ORM**: [Prisma](https://www.prisma.io/)
+- **Linguagem**: TypeScript
+
+## 🛠️ Configuração e Instalação
+
+### Pré-requisitos
+
+- [Node.js](https://nodejs.org/) (versão 18 ou superior)
+- [npm](https://www.npmjs.com/)
+- [PostgreSQL](https://www.postgresql.org/) rodando localmente ou via Docker
+
+### Passo a Passo
+
+1. **Clone o repositório**
+   ```bash
+   git clone <url-do-repositorio>
+   cd desafio-tecnico-III
+   ```
+
+2. **Acesse a pasta do backend**
+   ```bash
+   cd back
+   ```
+
+3. **Instale as dependências**
+   ```bash
+   npm install
+   ```
+
+4. **Configure as variáveis de ambiente**
+   Crie um arquivo `.env` na raiz da pasta `back` com o seguinte conteúdo (ajuste conforme suas credenciais do banco):
+   ```env
+   DATABASE_URL="postgresql://usuario:senha@localhost:5432/nome_do_banco?schema=public"
+   ```
+
+5. **Execute as migrações do banco de dados**
+   ```bash
+   npx prisma migrate dev
+   ```
+
+## ▶️ Executando o Projeto
+
+Para iniciar o servidor de desenvolvimento:
+
+```bash
+npm run start:dev
+```
+
+O servidor estará rodando em `http://localhost:3000`.
+
+## 🧪 Testes
+
+### Testes Unitários
+```bash
+npm run test
+```
+
+### Testes E2E (Ponta a Ponta)
+```bash
+npm run test:e2e
+```
+*Observação: Certifique-se de que o banco de dados de teste esteja acessível.*
+
+## 📡 Documentação da API
+
+### Pacientes
+
+#### Criar Paciente
+`POST /pacientes`
+
+**Corpo da Requisição (JSON):**
+```json
+{
+  "name": "Nome do Paciente",
+  "document": "12345678900",
+  "birthDate": "1990-01-01"
+}
+```
+
+**Respostas:**
+- `201 Created`: Paciente criado com sucesso.
+- `409 Conflict`: Documento já cadastrado.
+- `400 Bad Request`: Dados inválidos.
+
+#### Listar Pacientes
+`GET /pacientes`
+
+**Parâmetros de Query:**
+- `page` (opcional, padrão 1): Número da página.
+- `pageSize` (opcional, padrão 10): Itens por página.
+
+---
+
+### Exames
+
+#### Criar Exame
+`POST /exam`
+
+**Corpo da Requisição (JSON):**
+```json
+{
+  "idempotencyKey": "chave-unica-do-exame",
+  "patientId": "uuid-do-paciente",
+  "examDate": "2023-10-25T10:00:00Z",
+  "modality": "CR",
+  "description": "Raio-X de Tórax"
+}
+```
+
+**Modalidades Válidas:** `CR`, `CT`, `DX`, `MG`, `MR`, `NM`, `OT`, `PT`, `RF`, `US`, `XA`
+
+**Respostas:**
+- `201 Created`: Exame criado com sucesso.
+- `200 OK`: Exame já existente (idempotência).
+- `404 Not Found`: Paciente não encontrado.
+- `400 Bad Request`: Dados inválidos.
+
+#### Listar Exames
+`GET /exam`
+
+**Parâmetros de Query:**
+- `page` (opcional, padrão 1): Número da página.
+- `pageSize` (opcional, padrão 10): Itens por página.
